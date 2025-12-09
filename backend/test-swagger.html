@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Token Test</title>
+</head>
+
+<body>
+    <h1>Swagger Token Test</h1>
+
+    <div>
+        <h2>1. Login</h2>
+        <button onclick="login()">Login qilish</button>
+        <div id="loginResult"></div>
+    </div>
+
+    <div>
+        <h2>2. Token bilan API chaqirish</h2>
+        <button onclick="testAPI()">Test API</button>
+        <div id="apiResult"></div>
+    </div>
+
+    <script>
+        let token = '';
+
+        async function login() {
+            try {
+                const response = await fetch('http://localhost:3000/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        userName: 'aziz123',
+                        password: 'secret123',
+                        role: 'player'
+                    })
+                });
+
+                const data = await response.json();
+                document.getElementById('loginResult').innerHTML =
+                    '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+
+                if (data.token) {
+                    token = data.token;
+                    alert('Token olindi! Endi Test API ni bosing');
+                }
+            } catch (error) {
+                document.getElementById('loginResult').innerHTML =
+                    '<p style="color:red">Xato: ' + error.message + '</p>';
+            }
+        }
+
+        async function testAPI() {
+            if (!token) {
+                alert('Avval login qiling!');
+                return;
+            }
+
+            try {
+                const response = await fetch('http://localhost:3000/api/player/games', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    }
+                });
+
+                const data = await response.json();
+                document.getElementById('apiResult').innerHTML =
+                    '<p>Status: ' + response.status + '</p>' +
+                    '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+            } catch (error) {
+                document.getElementById('apiResult').innerHTML =
+                    '<p style="color:red">Xato: ' + error.message + '</p>';
+            }
+        }
+    </script>
+</body>
+
+</html>
