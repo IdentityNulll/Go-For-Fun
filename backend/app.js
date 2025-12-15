@@ -116,23 +116,22 @@ app.use("/api", (req, res, next) => {
   return generalLimiter(req, res, next);
 });
 
-// Swagger UI - Security headersiz
 app.use("/api-docs", swaggerUi.serve);
 app.get("/api-docs", swaggerUi.setup(specs, swaggerOptions));
 
-// Routes
+
 app.use("/api/auth", require("./routes/auth.routes"));
 app.use("/api/admin", require("./routes/admin.routes"));
 app.use("/api/organizer", require("./routes/organizer.routes"));
 app.use("/api/player", require("./routes/player.routes"));
 app.use("/api/notifications", require("./routes/notification.routes"));
 
-// Health check
+
 app.get("/health", (req, res) => {
   res.json({ status: "OK", message: "Server ishlayapti" });
 });
 
-// Test endpoint - Token borligini tekshirish
+
 app.get("/api/test-token", (req, res) => {
   const authHeader = req.headers["authorization"];
   res.json({
@@ -144,7 +143,7 @@ app.get("/api/test-token", (req, res) => {
 
 // 404 handler
 app.use((req, res) => {
-  res.status(404).json({ message: "Yo'l topilmadi" });
+  res.status(404).json({ message: "Yol topilmadi" });
 });
 
 // Error handler
