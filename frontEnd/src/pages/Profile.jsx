@@ -21,24 +21,23 @@ const Profile = () => {
 //       const tgUser = tg.initDataUnsafe.user;
 //       setUser(tgUser);
 //     }
-    //   }, []);
+//       }, []);
     
 
-    useEffect(() => {
-      if (window.Telegram?.WebApp?.initDataUnsafe?.user) {
-        const tg = window.Telegram.WebApp;
-        tg.ready();
-        setUser(tg.initDataUnsafe.user);
-      } else {
-        // FAKE USER (faqat localhost uchun)
-        setUser({
-          first_name: "Test",
-          last_name: "User",
-          username: "test_user",
-          id: 123456,
-        });
-      }
-    }, []);
+useEffect(() => {
+  const tg = window.Telegram?.WebApp;
+  if (!tg) return;
+
+  tg.ready();
+
+  const user = tg.initDataUnsafe?.user;
+  console.log("TG USER:", user);
+
+  if (user) {
+    setUser(user);
+  }
+}, []);
+
 
 
   if (!user) {
