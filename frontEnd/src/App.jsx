@@ -1,3 +1,13 @@
+import { Routes, Route } from "react-router-dom";
+import Sidebar from "./components/Sidebar";
+import Home from "./pages/Home"
+import Games from "./pages/Game";
+import Sessions from "./pages/Sessions"
+import Stats from  "./pages/Stats"
+import Profile from "./pages/Profile"
+
+
+
 import React, { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import Boarding from "./pages/Boarding";
@@ -25,13 +35,19 @@ function App() {
   }
 
   return (
-    <div>
-      <Routes>
-        <Route path='/' element={<Boarding />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/signup' element={<SignUp />} />
-      </Routes>
-    </div>
+    <>
+      <div>
+        <Routes>
+          <Route index element={<Home />} />
+          <Route path="/games" element={<Games />} />
+          <Route path="/sessions" element={<Sessions />} />
+          <Route path="/stats" element={<Stats />} />
+          <Route path="/profile" element={<Profile />} />
+        </Routes>
+      </div>
+
+      <Sidebar />
+    </>
   );
 }
 
